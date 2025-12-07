@@ -25,7 +25,10 @@ This library enables compiling Svelte components **from text at runtime**, allow
 
 The above code is an example of a component that can be loaded at runtime.
 
+---
 
+### Installation
+`npm install @mrgentle/svelte-runtime-components`
 
 ---
 
