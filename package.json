@@ -1,6 +1,6 @@
 {
     "name": "@mrgentle/svelte-runtime-components",
-    "version": "0.0.3",
+    "version": "0.0.6",
     "license": "MIT",
     "scripts": {
         "dev": "vite dev",
@@ -21,13 +21,19 @@
     "sideEffects": [
         "**/*.css"
     ],
-    "svelte": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "svelte": "./dist/loader.js",
+    "types": "./dist/loader.d.ts",
     "type": "module",
     "exports": {
         ".": {
-            "types": "./dist/index.d.ts",
-            "svelte": "./dist/index.js"
+            "types": "./dist/loader.d.ts",
+            "svelte": "./dist/loader.js",
+            "default": "./dist/loader.js"
+        },
+        "./compiler": {
+            "types": "./dist/compiler.d.ts",
+            "svelte": "./dist/compiler.js",
+            "default": "./dist/compiler.js"
         }
     },
     "peerDependencies": {

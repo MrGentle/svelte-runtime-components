@@ -36,6 +36,8 @@ The above code is an example of a component that can be loaded at runtime.
 
 `compileModule(code: string, svelteVersion: string, buildOptions?: ComponentBuildOptions)`
 
+Import it from `@mrgentle/svelte-runtime-components/compiler` 
+
 - Uses the official `svelte/compiler` to compile component source code.
 - Bundles the compiled output using **esbuild** and wraps the component with a standard mount/hydration interface.
 
@@ -74,6 +76,8 @@ export default function factory(target: HTMLElement, props: object) {
     };
 };
 ```
+
+The wrapper exposes setProps which allows you to hydrate the component with new props.
 
 You can write your own wrappers for use with compileModule
 Just make sure you include this line so that the esbuild plugin finds the component body:

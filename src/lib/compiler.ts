@@ -1,12 +1,16 @@
 import { compile } from "svelte/compiler";
 import * as esbuild from "esbuild";
-import { runtimeComponentBodyPlugin } from "./runtime-component-body-plugin.ts";
+import { runtimeComponentBodyPlugin } from "./runtime-component-body-plugin.js";
 import { randomUUID } from "node:crypto";
-import { runtimeComponentWrapperPlugin } from "./runtime-component-wrapper-plugin.ts";
-import wrapper from "./wrapper.ts";
-import type { ComponentBuildOptions } from "./index.ts";
+import { runtimeComponentWrapperPlugin } from "./runtime-component-wrapper-plugin.js";
+import wrapper from "./wrapper.js";
 
-
+export interface ComponentBuildOptions {
+    moduleIdentifier?: string,
+    minify?: boolean,
+    treeShaking?: boolean,
+    customWrapper?: string
+}
 
 export const compileModule = async (code: string, svelteVersion: string, buildOptions: ComponentBuildOptions = { minify: false, treeShaking: true }) => {
     let id = randomUUID();
