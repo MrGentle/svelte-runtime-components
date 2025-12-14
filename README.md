@@ -58,7 +58,7 @@ export const load = async () => {
 - Uses the official `svelte/compiler` to compile component source code.
 - Bundles the compiled output using **esbuild** and wraps the component with a standard mount/hydration interface.
 
-compileModule returns a client es6 module as a string, ready to execute in the browser via dynamic `import()`.
+compileModule returns a client ES module as a string, ready to execute in the browser via dynamic `import()`.
 
 ## Mount the compiled module in browser:
 ```svelte
@@ -81,7 +81,7 @@ compileModule returns a client es6 module as a string, ready to execute in the b
 <div bind:this={mountRef}></div>
 ```
 
-mountComponent is a lightweight browser utility that loads the compiled module string as an ES module using `import()`.
+mountComponent is a lightweight browser utility that loads and mounts the compiled component.
 
 Returns a wrapped RuntimeComponent.
 
