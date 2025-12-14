@@ -1,5 +1,7 @@
 # Svelte runtime components
 
+![NPM Version](https://img.shields.io/npm/v/%40mrgentle%2Fsvelte-runtime-components)
+
 This library enables compiling Svelte components **from text at runtime**, allowing dynamic, user-provided svelte component code to be compiled and mounted in the browser.
 
 ```svelte
@@ -112,5 +114,5 @@ Just make sure you include this line so that the esbuild plugin finds the compon
 `import ComponentBody from 'component-body';`
 
 ## Thanks
-Huge thanks to mateothgreat for his help https://github.com/mateothegreat/svelte-dynamic-component-engine/tree/v2
+Huge thanks to mateothegreat for his help! Check out their project [Svelte dynamic component engine](https://github.com/mateothegreat/svelte-dynamic-component-engine) as well
 
