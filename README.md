@@ -1,7 +1,8 @@
+# Svelte runtime components
 
 This library enables compiling Svelte components **from text at runtime**, allowing dynamic, user-provided svelte component code to be compiled and mounted in the browser.
 
-```html
+```svelte
 <script lang="ts">
 	let { counter } = $props();
     console.log("Component loaded");
@@ -23,40 +24,66 @@ This library enables compiling Svelte components **from text at runtime**, allow
 </style>
 ```
 
-The above code is an example of a component that can be loaded at runtime.
+The above code is an example of a string that can be compiled and loaded at runtime.
 
----
 
-### Installation
-`npm install @mrgentle/svelte-runtime-components`
+## Installation
+```
+npm install @mrgentle/svelte-runtime-components
+```
 
----
+## Core Runtime Compiler example
+Compile code on the server:
+```ts
+//+page.server.ts
+import lock from "../../package-lock.json" with { type: "json" };
+import { compileModule } from "@mrgentle/svelte-runtime-components/compiler"
 
-### Core Runtime Compiler
+ const template = `
+        <script lang="ts">
+		...
+    `;
 
-`compileModule(code: string, svelteVersion: string, buildOptions?: ComponentBuildOptions)`
+export const load = async () => {    
+    const { client } = await compileModule(template, lock.packages['node_modules/svelte'].version);
 
-Import it from `@mrgentle/svelte-runtime-components/compiler` 
+    return {
+        clientModule: client
+    };
+}
+```
 
 - Uses the official `svelte/compiler` to compile component source code.
 - Bundles the compiled output using **esbuild** and wraps the component with a standard mount/hydration interface.
 
-Returns a `.client` JavaScript module as a string, ready to execute in the browser via dynamic `import()`.
+compileModule returns a client es6 module as a string, ready to execute in the browser via dynamic `import()`.
 
----
+## Mount the compiled module in browser:
+```svelte
+<!-- +page.svelte -->
 
-### Mount the compiled component
+<script lang="ts">
+	import { mountComponent, type RuntimeComponent } from '$lib/loader.js';
+	import { onMount } from 'svelte';
 
-`mountComponent(code: string, ref: HTMLElement, props?: object)`
+    let { data } = $props();
+    let mountRef: HTMLElement;
+    let dynamicComponent: RuntimeComponent;
+    let counter = $state(0);
 
-A lightweight browser utility that loads the compiled module string as an ES module using `import()`.
+    onMount(async () => {
+        dynamicComponent = await mountComponent(data.clientModule, mountRef, { counter });
+    })
+</script>
 
-Returns a wrapped component
+<div bind:this={mountRef}></div>
+```
 
----
+mountComponent is a lightweight browser utility that loads the compiled module string as an ES module using `import()`.
 
-### Wrappers
+Returns a wrapped RuntimeComponent.
 
+## Wrappers
 This is the built-in wrapper
 ```ts
 import ComponentBody from 'component-body';
@@ -83,4 +110,7 @@ You can write your own wrappers for use with compileModule
 Just make sure you include this line so that the esbuild plugin finds the component body:
 
 `import ComponentBody from 'component-body';`
+
+## Thanks
+Huge thanks to mateothgreat for his help https://github.com/mateothegreat/svelte-dynamic-component-engine/tree/v2
 
